@@ -8,9 +8,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 
 import com.feign.config.HeaderConfiguration;
+import com.feign.fallback.ExampleFallback;
 
 // Default FeignClientsConfiguration.class
-@FeignClient(value = "example", url = "http://localhost:8181/example", configuration = { HeaderConfiguration.class })
+@FeignClient(
+    value = "example", 
+    url = "http://localhost:8181/example", 
+    fallbackFactory = ExampleFallback.class,
+    configuration = { HeaderConfiguration.class })
 public interface ExampleClient {
     @GetMapping("/status/{status}")
     String status(@PathVariable("status") String status, @RequestHeader("test") String test);
